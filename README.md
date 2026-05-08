@@ -7,7 +7,10 @@ Supports xlsx, xls, ods, and more.
 
 ## Features
 
-- Generates a separate CSV file for each sheet
+- Simple command-line interface for quick conversion of Excel files to CSV
+- Rust implementation for fast performance and low memory usage
+- Converts each sheet in an Excel file to a separate CSV file
+- Supports multiple output encodings (Shift-JIS by default, UTF-8, EUC-JP, etc.)
 - Date cells are output in `YYYY-MM-DD` format by default
 - Fields containing commas, double quotes, or newlines are escaped per RFC 4180
 - Output files are placed in the same directory as the input file
