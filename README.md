@@ -1,119 +1,121 @@
 # xlsx2csv
 
-ExcelファイルをシートごとにCSVファイルへ変換するCLIツールです。  
-xlsx / xls / ods などの形式に対応しています。
+A CLI tool to convert Excel files into CSV files, one per sheet.  
+Supports xlsx, xls, ods, and more.
 
-## 特徴
+> Japanese documentation: [README-ja.md](README-ja.md)
 
-- シートごとに個別のCSVファイルを生成
-- 日付セルは `YYYY-MM-DD` 形式で出力
-- カンマ・ダブルクォート・改行を含むセルは RFC 4180 に準拠してエスケープ
-- 入力ファイルと同じディレクトリに出力
-- Windowsなら、実行ファイルにExcelファイルをドラッグ＆ドロップすることで変換できます。
+## Features
 
-## ダウンロード
+- Generates a separate CSV file for each sheet
+- Date cells are output in `YYYY-MM-DD` format by default
+- Fields containing commas, double quotes, or newlines are escaped per RFC 4180
+- Output files are placed in the same directory as the input file
+- On Windows, you can drag and drop an Excel file onto the executable to convert it
 
-[こちら](https://github.com/kujirahand/xlsx2csv/releases/)から、最新のバイナリをダウンロードできます。
+## Download
 
-## 設定について
+Download the latest binary from [Releases](https://github.com/kujirahand/xlsx2csv/releases/).
 
-実行ファイルと同じディレクトリまたはカレントディレクトリに `xlsx2csv.toml` を置くことで、デフォルトの動作を変更できます。
+## Configuration
+
+Place an `xlsx2csv.toml` file in the same directory as the executable or in the current working directory to change default behavior.
 
 ```toml
 [default]
-encoding = "utf-8"       # 出力エンコーディング (デフォルト: shift_jis)
-date_format = "%Y/%m/%d" # 日付フォーマット (デフォルト: %Y-%m-%d)
-output_format = "tsv"    # 出力形式: csv または tsv (デフォルト: csv)
+encoding = "utf-8"       # output encoding (default: shift_jis)
+date_format = "%Y/%m/%d" # date format (default: %Y-%m-%d)
+output_format = "tsv"    # output format: csv or tsv (default: csv)
 ```
 
-### date_format の形式指定例
+### date_format examples
 
-| 設定値 | 出力例 |
+| Value | Output |
 |---|---|
 | `%Y-%m-%d` | 2025-01-31 |
 | `%Y/%m/%d` | 2025/01/31 |
 | `%d/%m/%Y` | 31/01/2025 |
 | `%Y年%m月%d日` | 2025年1月31日 |
 
-形式指定には [chrono の strftime 記法](https://docs.rs/chrono/latest/chrono/format/strftime/index.html) を使用します。
+Format specifiers follow [chrono's strftime syntax](https://docs.rs/chrono/latest/chrono/format/strftime/index.html).
 
-## コマンドラインオプション
+## Command-line Options
 
-コマンドラインオプションは、設定ファイルの内容を上書きします。例えば、`-e utf-8` を指定すると、設定ファイルで `encoding = "shift_jis"` としていても UTF-8 で出力されます。
+Command-line options override values from the configuration file.
 
-| コマンドラインオプション | 設定ファイルのキー | デフォルト | 説明 |
-|---|---|---|----|
-| `-e`, `--encoding` | `encoding` | `shift_jis` | 文字エンコーディング |
-| `-d`, `--date_format` | `date_format` | `%Y-%m-%d` | 日付のフォーマット |
-| `--tsv` | `output_format` | `csv` | `tsv` を指定するとタブ区切りで出力 |
+| Option | Config key | Default | Description |
+|---|---|---|---|
+| `-e`, `--encoding` | `encoding` | `shift_jis` | Output character encoding |
+| `-d`, `--date_format` | `date_format` | `%Y-%m-%d` | Date format |
+| `--tsv` | `output_format` | `csv` | Output as tab-separated (TSV) |
 
-## 開発者用のビルド方法
+## Building (for developers)
 
-Rust のツールチェーンが必要です。以下のコマンドでビルドしてください。
+Requires the Rust toolchain.
 
 ```bash
 cargo build --release
 ```
 
-ビルド後、バイナリは `target/release/xls2csv` に生成されます。
+The binary is generated at `target/release/xlsx2csv`.
 
-## 使い方
+## Usage
 
 ```bash
-xlsx2csv [-e <encoding>] [-d <date_format>] [--tsv] <Excelファイル>
+xlsx2csv [-e <encoding>] [-d <date_format>] [--tsv] [--utf8] <excel_file>
 ```
 
-### オプション
+### Options
 
-| オプション | 説明 | デフォルト |
+| Option | Description | Default |
 |---|---|---|
-| `-e`, `--encoding` | 出力エンコーディング | `shift_jis` |
-| `-d`, `--date_format` | 日付フォーマット | `%Y-%m-%d` |
-| `--tsv` | タブ区切り(TSV)で出力 | (無効) |
-| `-h`, `--help` | ヘルプを表示 | - |
-| `-u8`, `--utf8` | UTF-8 で出力 (エンコーディング指定のショートカット) | (無効) |
+| `-e`, `--encoding` | Output encoding | `shift_jis` |
+| `-d`, `--date_format` | Date format | `%Y-%m-%d` |
+| `--tsv` | Output as TSV (tab-separated) | (off) |
+| `-u8`, `--utf8` | Output as UTF-8 (shortcut for `--encoding utf-8`) | (off) |
+| `-h`, `--help` | Show help | - |
 
-### 例
+### Examples
 
 ```bash
-# Shift-JIS で出力（デフォルト）
+# Output as Shift-JIS (default)
 xlsx2csv data.xlsx
 
-# UTF-8 で出力
+# Output as UTF-8
 xlsx2csv -e utf-8 data.xlsx
 
-# EUC-JP で出力
+# Output as EUC-JP
 xlsx2csv --encoding euc-jp data.xlsx
 
-# 日付を YYYY/MM/DD 形式で出力
+# Output dates in YYYY/MM/DD format
 xlsx2csv -d "%Y/%m/%d" data.xlsx
 
-# エンコーディングと日付フォーマットを同時に指定
+# Specify encoding and date format together
 xlsx2csv -e utf-8 -d "%Y/%m/%d" data.xlsx
 
-# TSV で出力
+# Output as TSV
 xlsx2csv --tsv data.xlsx
 
-# TSV かつ UTF-8 で出力
-xlsx2csv --tsv -e utf-8 data.xlsx
+# Output as TSV with UTF-8 encoding
+xlsx2csv --tsv --utf8 data.xlsx
 ```
 
-シートごとに `<ファイル名>_<シート名>.csv` という名前でCSVが生成されます。
+Output files are named `<filename>_<sheetname>.csv` (or `.tsv`) per sheet.
 
 ```
 data_Sheet1.csv
 data_Sheet2.csv
 ```
 
-## 仕様
+## Specification
 
-- 対応フォーマット: xlsx, xls, ods など（拡張子から自動判定）
-- 出力先: 入力ファイルと同じディレクトリ
-- ファイル名: `<入力ファイル名>_<シート名>.csv`
-- 出力エンコーディング: デフォルトは Shift-JIS（`-e utf-8` などで変更可能）
-- 日付フォーマット: デフォルトは `%Y-%m-%d`（`-d "%Y/%m/%d"` などで変更可能）
-- カンマ・ダブルクォート・改行を含むセルは RFC 4180 に準拠してエスケープ
+- Supported formats: xlsx, xls, ods, etc. (auto-detected from extension)
+- Output directory: same as the input file
+- File naming: `<input_filename>_<sheet_name>.csv`
+- Output encoding: Shift-JIS by default (changeable with `-e utf-8`, etc.)
+- Date format: `%Y-%m-%d` by default (changeable with `-d "%Y/%m/%d"`, etc.)
+- Fields with commas, double quotes, or newlines are escaped per RFC 4180
 
-## ライセンス
+## License
 
 MIT License

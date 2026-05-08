@@ -8,6 +8,7 @@ set -e
 cargo build --release
 cp target/release/xlsx2csv $MAC_DIR/
 cp README.md $MAC_DIR/
+cp README-*.md $MAC_DIR/
 cp LICENSE $MAC_DIR/
 cp Cargo.toml $MAC_DIR/
 cp xlsx2csv.toml $MAC_DIR/

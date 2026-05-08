@@ -11,6 +11,7 @@ if errorlevel 1 exit /b 1
 
 copy /Y "target\release\xlsx2csv.exe" "%WIN_DIR%\"
 copy /Y "README.md" "%WIN_DIR%\"
+copy /Y "README-*.md" "%WIN_DIR%\"
 copy /Y "LICENSE" "%WIN_DIR%\"
 copy /Y "Cargo.toml" "%WIN_DIR%\"
 copy /Y "xlsx2csv-win.toml" "%WIN_DIR%\xlsx2csv.toml"
