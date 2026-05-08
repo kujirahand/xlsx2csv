@@ -3,7 +3,7 @@
 A CLI tool to convert Excel files into CSV files, one per sheet.  
 Supports xlsx, xls, ods, and more.
 
-> Japanese documentation: [README-ja.md](README-ja.md)
+> 日本語の説明: [README-ja.md](README-ja.md)
 
 ## Features
 
