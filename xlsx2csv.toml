@@ -1,0 +1,4 @@
+[default]
+encoding = "utf-8"       # 出力エンコーディング (デフォルト: shift_jis)
+date_format = "%Y/%m/%d" # 日付フォーマット (デフォルト: %Y-%m-%d)
+output_format = "csv"    # 出力形式: csv または tsv (デフォルト: csv)
