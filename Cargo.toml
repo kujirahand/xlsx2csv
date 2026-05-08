@@ -1,8 +1,10 @@
 [package]
-name = "xls2csv"
+name = "xlsx2csv"
 version = "0.1.0"
 edition = "2024"
 
 [dependencies]
 calamine = { version = "0.34.0", features = ["dates"] }
 chrono = "0.4"
+encoding_rs = "0.8"
+toml = { version = "0.8", default-features = false, features = ["parse"] }
